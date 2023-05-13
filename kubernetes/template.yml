@@ -1,0 +1,171 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Cloud Storage
+  labels:
+    app: Cloud Storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Cloud Storage
+  template:
+    metadata:
+      labels:
+        app: Cloud Storage
+    spec:
+      containers:
+        - name: Cloud Storage
+          image: username/Cloud Storage:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Collaboration
+  labels:
+    app: Collaboration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Collaboration
+  template:
+    metadata:
+      labels:
+        app: Collaboration
+    spec:
+      containers:
+        - name: Collaboration
+          image: username/Collaboration:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Data Management
+  labels:
+    app: Data Management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Data Management
+  template:
+    metadata:
+      labels:
+        app: Data Management
+    spec:
+      containers:
+        - name: Data Management
+          image: username/Data Management:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: Cloud Storage
+  labels:
+    app: Cloud Storage
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: Cloud Storage
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: Collaboration
+  labels:
+    app: Collaboration
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: Collaboration
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: Data Management
+  labels:
+    app: Data Management
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: Data Management
+

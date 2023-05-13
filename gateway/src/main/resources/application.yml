@@ -1,0 +1,74 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: Cloud Storage
+          uri: http://localhost:8081
+          predicates:
+            - Path=/files/**, 
+        - id: Collaboration
+          uri: http://localhost:8082
+          predicates:
+            - Path=/teams/**, 
+        - id: Data Management
+          uri: http://localhost:8083
+          predicates:
+            - Path=/data/**, 
+        - id: frontend
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: Cloud Storage
+          uri: http://cloudStorage:8080
+          predicates:
+            - Path=/files/**, 
+        - id: Collaboration
+          uri: http://collaboration:8080
+          predicates:
+            - Path=/teams/**, 
+        - id: Data Management
+          uri: http://dataManagement:8080
+          predicates:
+            - Path=/data/**, 
+        - id: frontend
+          uri: http://frontend:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
